@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Publication;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class PublicationController extends Controller
@@ -41,7 +42,7 @@ class PublicationController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Publication  $publication
+     * @param Publication $publication
      * @return \Illuminate\Http\Response
      */
     public function show(Publication $publication)
@@ -52,7 +53,7 @@ class PublicationController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Publication  $publication
+     * @param Publication $publication
      * @return \Illuminate\Http\Response
      */
     public function edit(Publication $publication)
@@ -64,7 +65,7 @@ class PublicationController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Publication  $publication
+     * @param Publication $publication
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Publication $publication)
@@ -75,11 +76,12 @@ class PublicationController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Publication  $publication
-     * @return \Illuminate\Http\Response
+     * @param Publication $publication
+     * @return RedirectResponse
      */
-    public function destroy(Publication $publication)
+    public function destroy(Publication $publication): RedirectResponse
     {
-        //
+        $publication->delete();
+        return redirect()->back();
     }
 }
