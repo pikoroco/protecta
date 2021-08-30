@@ -1,63 +1,68 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+# Installation
+### Info: If you haven't local development environment jump to local development article.
+First create .env file in project directory
+First you run this project use this commands.
+```php
+    composer install
+    npm install
+    php artisan migrate
+    npm run dev
+```
 
-## About Laravel
+## Add fake data to database
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+If you want to test this project, you can use seeder to create fake data when you run command.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+```php
+    php artisan db:seed
+```
+(If everything is up and seeder return with success you have to connect to database and search a user email and use it to log in with user email and password(The password is the password with all fake user))
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+# Local development
 
-## Learning Laravel
+I'm using laradock, so I help how to configure [laradock](https://laradock.io/) and build project in local.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## First create directory structure.
+    Project
+        data (mysql data diractory)
+        laradock
+        project_directory
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+If you create this structure run these next step.
+1. Create .env file in laradock directory.
+    * Copy .env.example to .env
+    * Open .env file and change some parameters.
+        * DATA_PATH_HOST=your local project data directory path.
+        * COMPOSE_PROJECT_NAME=protecta
+        * PHP_VERSION=8.0
+2. Create protecta.conf file in laradock/nginx/sites
+    * Copy laravel.conf.example to protecta.conf
+    * Open protecta.conf and configure
+        * change server_name=your local domain name
+        * change root (/var/www/project_directory/public)
+        * Optional: error and access log file name.
+3. Create createdb.sql file in laradock/mysql/docker-entrypoint-initdb.d
+    * Copy createdb.sql.example to createdb.sql
+    * Open createdb.sql and configure
+        * Uncomment two row where see "dev_db_1"
+        * Change database name(dev_db_1) like protecta_db
 
-## Laravel Sponsors
+If exists this file you run docker in your pc. (If it doesn't install, download and install. Link  [Docker](https://www.docker.com/products/docker-desktop))
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+The other important thing is hosts file. Please add your local domain to host file in your pc!
 
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[CMS Max](https://www.cmsmax.com/)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### Running containers
+Start required containers 
+```
+docker-compose up -d mysql nginx php-fpm workspace
+```
+If containers up use this command.
+```
+docker-compose exec workspace bash 
+cd /project_directory
+```
+Then back to the installation and run install command.
 
 ## License
 
