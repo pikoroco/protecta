@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Author;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -16,10 +17,12 @@ class AuthorController extends Controller
      */
     public function index(): Response
     {
+        $csrf = csrf_token();
         $authors = Author::all();
         $authors->load('publications');
         return Inertia::render('AuthorIndex', [
             'authors' => $authors,
+            'csrf'=> $csrf,
         ]);
     }
 
@@ -66,8 +69,10 @@ class AuthorController extends Controller
     public function show(Author $author): Response
     {
         $author->load('publications');
+        $csrf = csrf_token();
         return Inertia::render('AuthorDetails', [
             'author' => $author,
+            'csrf' => $csrf,
         ]);
     }
 
@@ -80,8 +85,10 @@ class AuthorController extends Controller
     public function edit(Author $author): Response
     {
         $author->load('publications');
+        $csrf = csrf_token();
         return Inertia::render('AuthorEdit', [
             'author' => $author,
+            'csrf' => $csrf
         ]);
     }
 
@@ -107,16 +114,13 @@ class AuthorController extends Controller
     /**
      * Remove the specified resource from storage.
      *
+     * @param Request $request
      * @param Author $author
-     * @return Response
+     * @return RedirectResponse
      */
-    public function destroy(Author $author): Response
+    public function destroy(Request $request, Author $author): RedirectResponse
     {
         $author->delete();
-        dd(Author::all()->count());
-        $authors = Author::all();
-        return Inertia::render('AuthorIndex', [
-            'authors' => $authors,
-        ]);
+        return redirect()->route('author.index');
     }
 }
