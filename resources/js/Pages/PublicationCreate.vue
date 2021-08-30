@@ -8,24 +8,20 @@
 
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <form :action="route('author.store')" method="POST">
-                    @csrf
+                <form :action="route('publication.store')" method="POST">
+                    <input type="hidden" name="_token" :value="csrf" />
+                    <input type="hidden" name="author_id" :value="author_id" />
                     <div class="shadow overflow-hidden sm:rounded-md">
                         <div class="px-4 py-5 bg-white sm:p-6">
                             <div class="grid gap-6">
                                 <div class="col-span-12">
-                                    <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
-                                    <input type="text" name="name" id="name" autocomplete="name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                    <label for="date" class="block text-sm font-medium text-gray-700">Date</label>
+                                    <input type="date" name="date" id="date" class="text-black mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                                 </div>
 
                                 <div class="col-span-12">
-                                    <label for="address" class="block text-sm font-medium text-gray-700">Address</label>
-                                    <input type="text" name="address" id="address" autocomplete="address" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                                </div>
-
-                                <div class="col-span-12">
-                                    <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
-                                    <input type="text" name="description" id="description" autocomplete="description" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                    <label for="title" class="block text-sm font-medium text-gray-700">Title</label>
+                                    <input type="text" name="title" id="title" autocomplete="title" class="text-black mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                                 </div>
                             </div>
                         </div>
@@ -46,10 +42,10 @@
 import AppLayout from "../Layouts/AppLayout";
 export default {
     name: "PublicationCreate",
-    props: ['csrf_field'],
+    props: ['csrf', 'author_id'],
     components: {
         AppLayout,
-    }
+    },
 }
 </script>
 
