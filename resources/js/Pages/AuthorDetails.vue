@@ -17,7 +17,13 @@
                                 Personal details of author.
                             </p>
                             <jet-nav-link :href="route('author.edit', author.id)" class="btn btn-warning w-24 px-6 mx-2">Edit</jet-nav-link>
-                            <jet-nav-link :href="route('author.destroy', author.id)" class="btn btn-error w-24 px-6">Delete</jet-nav-link>
+                            <form :action="route('author.destroy', author.id)" method="POST" class="inline-block">
+                                <input name="_method" type="hidden" value="DELETE">
+                                <input type="hidden" name="_token" :value="csrf" />
+                                <button type="submit" class="btn btn-error w-24 px-6">
+                                    Delete
+                                </button>
+                            </form>
                         </div>
                         <div class="border-t border-gray-200">
                             <dl>
@@ -65,7 +71,7 @@
                                             Title
                                         </th>
                                         <th scope="col" class="relative text-right px-6 py-3">
-                                            <jet-nav-link class="btn btn-accent w-24" :href="route('author.create')">New</jet-nav-link>
+                                            <jet-nav-link class="btn btn-accent w-24" :href="route('publication.create',{author_id: author.id})">New</jet-nav-link>
                                         </th>
                                     </tr>
                                     </thead>
@@ -90,11 +96,15 @@
                                             </div>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                            <jet-nav-link class="btn btn-secondary w-24" :href="route('author.destroy', { author: author.id })">Delete</jet-nav-link>
+                                            <form :action="route('publication.destroy', publication.id)" method="POST">
+                                                <input name="_method" type="hidden" value="DELETE">
+                                                <input type="hidden" name="_token" :value="csrf" />
+                                                <button type="submit" class="btn btn-secondary w-24 px-6">
+                                                    Delete
+                                                </button>
+                                            </form>
                                         </td>
                                     </tr>
-
-                                    <!-- More people... -->
                                     </tbody>
                                 </table>
                             </div>
@@ -113,7 +123,7 @@ import JetNavLink from "../Jetstream/NavLink";
 
 export default {
     name: "AuthorDetails",
-    props: ['author'],
+    props: ['author', 'csrf'],
     components: {
         AppLayout,
         JetNavLink,
