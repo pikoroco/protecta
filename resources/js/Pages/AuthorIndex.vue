@@ -39,28 +39,32 @@
                                     </thead>
                                     <tbody class="bg-white divide-y divide-gray-200" v-for="author in authors">
                                     <tr>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-black">
                                             {{ author.id }}
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <div class="flex items-center">
-                                                <div class="text-sm font-medium text-gray-900">
+                                                <div class="text-sm font-medium text-black">
                                                     <jet-nav-link :href="route('author.show', { author: author.id })">
                                                         {{ author.name }}
                                                     </jet-nav-link>
                                                 </div>
                                             </div>
                                         </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
+                                        <td class="px-6 py-4 whitespace-nowrap text-black">
                                             {{ author.address }}
                                         </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            {{ author.publications.length }}
+                                        <td class="px-6 py-4 whitespace-nowrap text-black">
+                                            {{ author.publications.length ?? 0 }}
                                         </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                            <jet-nav-link class="btn btn-secondary w-24" :href="route('author.destroy', { author: author.id })">
-                                                Delete
-                                            </jet-nav-link>
+                                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium text-black">
+                                            <form :action="route('author.destroy', author.id)" method="POST">
+                                                <input name="_method" type="hidden" value="DELETE">
+                                                <input type="hidden" name="_token" :value="csrf" />
+                                                <button type="submit" class="btn btn-error w-24">
+                                                    Delete
+                                                </button>
+                                            </form>
                                         </td>
                                     </tr>
                                     </tbody>
@@ -80,7 +84,7 @@ import JetNavLink from "../Jetstream/NavLink";
 
 export default {
     name: "AuthorIndex",
-    props: ['authors'],
+    props: ['authors', 'csrf'],
     components: {
         AppLayout,
         JetNavLink
