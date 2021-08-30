@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Publication;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class PublicationController extends Controller
 {
@@ -21,22 +23,33 @@ class PublicationController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
-    public function create()
+    public function create(Request $request): Response
     {
-        //
+        $csrf = csrf_token();
+        return Inertia::render('PublicationCreate', [
+            'csrf' => $csrf,
+            'author_id' => $request->author_id
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return RedirectResponse
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
-        //
+        $publication = new Publication();
+        $publication->date = $request->date ?? now();
+        $publication->title = $request->title;
+        $publication->author_id = $request->author_id;
+        $publication->save();
+
+        return redirect()->route('author.show',$request->author_id);
     }
 
     /**
@@ -64,7 +77,7 @@ class PublicationController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @param Publication $publication
      * @return \Illuminate\Http\Response
      */
