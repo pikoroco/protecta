@@ -8,24 +8,25 @@
 
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <form :action="route('author.update')" method="POST">
+                <form :action="route('author.update', author.id)" method="POST">
+                    <input name="_method" type="hidden" value="PUT">
                     <input type="hidden" name="_token" :value="csrf" />
                     <div class="shadow overflow-hidden sm:rounded-md">
                         <div class="px-4 py-5 bg-white sm:p-6">
                             <div class="grid gap-6">
                                 <div class="col-span-12">
                                     <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
-                                    <input :value="author.id" type="text" name="name" id="name" autocomplete="name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                    <input :value="author.name" type="text" name="name" id="name" autocomplete="name" class="text-black mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                                 </div>
 
                                 <div class="col-span-12">
                                     <label for="address" class="block text-sm font-medium text-gray-700">Address</label>
-                                    <input :value="author.address" type="text" name="address" id="address" autocomplete="address" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                    <input :value="author.address" type="text" name="address" id="address" autocomplete="address" class="text-black mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                                 </div>
 
                                 <div class="col-span-12">
                                     <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
-                                    <input :value="author.description" type="text" name="description" id="description" autocomplete="description" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                    <input :value="author.description" type="text" name="description" id="description" autocomplete="description" class="text-black mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                                 </div>
                             </div>
                         </div>
@@ -46,7 +47,7 @@
 import AppLayout from "../Layouts/AppLayout";
 export default {
     name: "AuthorEdit",
-    props: ['csrf'],
+    props: ['author','csrf'],
     components: {
         AppLayout,
     }
